@@ -71,6 +71,21 @@ public class FrmManteProd extends JFrame {
 				registrar();
 			}
 		});
+		JButton btnBuscar = new JButton("Buscar");
+
+		btnBuscar.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent arg0) {
+
+				buscar();
+
+			}
+
+		});
+
+		btnBuscar.setBounds(324, 60, 89, 23);
+
+		contentPane.add(btnBuscar);
 		btnNewButton.setBounds(324, 29, 89, 23);
 		contentPane.add(btnNewButton);
 		
@@ -192,7 +207,7 @@ public class FrmManteProd extends JFrame {
         txtSalida.append("Precio      :" + p.getPrecio() + "\n");
         //txtSalida.append("Id Categoria:" + Integer.toString(p.getIdcategoria())+"\n");
         txtSalida.append("Categoria:" + p.getIdcategoria() + "/"+ p.getCategoria().getDescripcion() + "\n");
-        txtSalida.append("Estado      :" + Integer.toString(p.getEstado())+"\n");
+        txtSalida.append("Estado  ss    :" + Integer.toString(p.getEstado())+"\n");
        // txtSalida.append("Id Proveedor:" + Integer.toString(p.getIdproveedor())+"\n\n");
         txtSalida.append("Nombre Proveedor:" + p.getProveedor().getNombre_rs()+"\n\n");
 
@@ -201,6 +216,34 @@ public class FrmManteProd extends JFrame {
           
 	
 	}
+	
+	void buscar() {
+
+
+				EntityManagerFactory fabrica = Persistence.createEntityManagerFactory("mysql");
+                EntityManager em = fabrica.createEntityManager();
+
+				Producto p = em.find(Producto.class, txtCódigo.getText());
+
+				
+
+				//Salida
+
+				txtDescripcion.setText(p.getDescripcion());
+               // cboCategorias.setSelectedItem(p.getCategoria().getDescripcion());
+				cboCategorias.setSelectedIndex(p.getIdcategoria());
+                txtPrecio.setText(Double.toString(p.getPrecio()));
+                txtStock.setText(Integer.toString(p.getStock()));
+                cboProveedores.setSelectedItem(p.getProveedor().getNombre_rs());
+
+		
+				em.close();	
+
+					
+
+			}
+
+		
 	
 
 	void registrar() {
